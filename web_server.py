@@ -30,8 +30,8 @@ monitor = RealTimeMonitor()
 try:
     predictor.load_model()
     print("Model loaded successfully")
-except:
-    print("Warning: Model not loaded. Please train the model first.")
+except Exception as e:
+    print(f"Warning: Model not loaded - {e}. Please train the model first.")
 
 
 @app.route('/')
@@ -63,7 +63,13 @@ def health_check():
 def predict():
     """Predict health risk from vital signs"""
     try:
-        data = request.get_json()
+        data = request.get_json(force=False, silent=False)
+    except Exception as e:
+        return jsonify({'error': 'Invalid JSON in request body'}), 400
+    
+    try:
+        if data is None:
+            return jsonify({'error': 'Invalid JSON in request body'}), 400
         
         # Validate input
         required_fields = [
@@ -75,6 +81,24 @@ def predict():
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Missing field: {field}'}), 400
+        
+        # Validate ranges
+        from config import HEALTH_PARAMS
+        validations = {
+            'heart_rate': HEALTH_PARAMS['heart_rate'],
+            'blood_pressure_systolic': HEALTH_PARAMS['blood_pressure_systolic'],
+            'blood_pressure_diastolic': HEALTH_PARAMS['blood_pressure_diastolic'],
+            'temperature': HEALTH_PARAMS['temperature'],
+            'oxygen_saturation': HEALTH_PARAMS['oxygen_saturation'],
+            'respiratory_rate': HEALTH_PARAMS['respiratory_rate']
+        }
+        
+        for field, limits in validations.items():
+            value = data[field]
+            if not isinstance(value, (int, float)):
+                return jsonify({'error': f'{field} must be a number'}), 400
+            if value < limits['min'] or value > limits['max']:
+                return jsonify({'error': f'{field} must be between {limits["min"]} and {limits["max"]}'}), 400
         
         # Make prediction
         prediction = predictor.predict(data)
@@ -89,8 +113,10 @@ def predict():
             'alert': alert
         })
     
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @app.route('/chat', methods=['POST'])
@@ -98,6 +124,10 @@ def chat():
     """Chat with health assistant"""
     try:
         data = request.get_json()
+        
+        if data is None:
+            return jsonify({'error': 'Invalid JSON in request body'}), 400
+        
         message = data.get('message', '')
         
         if not message:
@@ -112,8 +142,10 @@ def chat():
             'conversation_history': chatbot.get_conversation_history()
         })
     
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @app.route('/monitor', methods=['GET'])
@@ -121,20 +153,29 @@ def get_monitored_vitals():
     """Get simulated vital signs"""
     try:
         condition = request.args.get('condition', 'healthy')
+        
+        if condition not in ['healthy', 'at_risk', 'critical']:
+            return jsonify({'error': 'condition must be one of: healthy, at_risk, critical'}), 400
+        
         vitals = monitor.simulate_vitals(condition)
         
         # Make prediction
         prediction = predictor.predict(vitals)
         
+        from datetime import datetime
+        timestamp = datetime.now().isoformat()
+        
         return jsonify({
             'success': True,
-            'timestamp': monitor.monitoring_history[-1]['timestamp'] if monitor.monitoring_history else None,
+            'timestamp': timestamp,
             'vitals': vitals,
             'prediction': prediction
         })
     
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @app.route('/alerts', methods=['GET'])
@@ -149,7 +190,7 @@ def get_alerts():
         })
     
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @app.route('/simulate', methods=['POST'])
@@ -157,7 +198,14 @@ def simulate_monitoring():
     """Simulate a monitoring check"""
     try:
         data = request.get_json()
+        
+        if data is None:
+            return jsonify({'error': 'Invalid JSON in request body'}), 400
+        
         condition = data.get('condition', 'healthy')
+        
+        if condition not in ['healthy', 'at_risk', 'critical']:
+            return jsonify({'error': 'condition must be one of: healthy, at_risk, critical'}), 400
         
         # Simulate vitals
         vitals = monitor.simulate_vitals(condition)
@@ -170,8 +218,10 @@ def simulate_monitoring():
             'monitoring_result': result
         })
     
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 if __name__ == '__main__':

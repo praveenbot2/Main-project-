@@ -59,6 +59,8 @@ pip install -r requirements.txt
 
 ### Setup and Training
 
+**Important**: The repository does not include the trained model or dataset files to keep it lightweight. These will be automatically generated when you first run the application.
+
 Run the setup to generate data and train the AI model:
 
 ```bash
@@ -66,9 +68,11 @@ python main.py
 ```
 
 This will:
-- Generate a synthetic health dataset (1000 samples)
+- Generate a synthetic health dataset (1000 samples) → `data/health_data.csv`
 - Train the Random Forest-based health risk predictor
-- Save the trained model for future use
+- Save the trained model → `models/health_predictor.pkl` and `models/scaler.pkl`
+
+The setup only needs to be run once. The model and data will be saved and reused in subsequent runs.
 
 ### Usage
 
@@ -203,6 +207,16 @@ Session Summary:
 ## 🛡️ Disclaimer
 
 This is a demonstration system for educational purposes. **It is NOT a medical device** and should not be used for actual medical diagnosis or treatment. Always consult qualified healthcare professionals for medical advice.
+
+## 🔒 Security Notes
+
+**For Production Use:**
+- Change `HOST` in `config.py` from `127.0.0.1` to `0.0.0.0` only if needed for network access
+- Set `DEBUG = False` in `config.py`
+- Implement authentication and authorization for API endpoints
+- Use HTTPS for encrypted communication
+- Regularly update dependencies for security patches
+- Never expose the system to public internet without proper security measures
 
 ## 📄 License
 

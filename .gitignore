@@ -32,11 +32,11 @@ env/
 *.swo
 *~
 
-# Models (optional - uncomment to exclude trained models)
-# models/*.pkl
+# Models - Exclude trained models (regenerate with training)
+models/*.pkl
 
-# Data (optional - uncomment to exclude generated data)
-# data/*.csv
+# Data - Exclude generated data (regenerate with data_generator)
+data/*.csv
 
 # OS
 .DS_Store

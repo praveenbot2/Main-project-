@@ -24,9 +24,9 @@ HEALTH_PARAMS = {
 }
 
 # Server configuration
-HOST = '0.0.0.0'
+HOST = '127.0.0.1'  # Localhost only for security
 PORT = 5000
-DEBUG = True
+DEBUG = False  # Set to True only for development
 
 # Data configuration
 DATA_PATH = 'data/health_data.csv'
