@@ -1,6 +1,7 @@
 """
 Configuration file for AI Health Monitor System
 """
+import os
 
 # Model configuration
 MODEL_PATH = 'models/health_predictor.pkl'
@@ -22,11 +23,6 @@ HEALTH_PARAMS = {
     'oxygen_saturation': {'min': 70, 'max': 100, 'normal': (95, 100)},
     'respiratory_rate': {'min': 8, 'max': 40, 'normal': (12, 20)}
 }
-
-# Server configuration
-HOST = '127.0.0.1'  # Localhost only for security
-PORT = 5000
-DEBUG = False  # Set to True only for development
 
 # Data configuration
 DATA_PATH = 'data/health_data.csv'

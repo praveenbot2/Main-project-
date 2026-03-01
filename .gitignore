@@ -24,6 +24,7 @@ wheels/
 venv/
 ENV/
 env/
+.venv/
 
 # IDE
 .vscode/
@@ -32,11 +33,12 @@ env/
 *.swo
 *~
 
-# Models - Exclude trained models (regenerate with training)
+# Models - Generated at runtime
 models/*.pkl
 
-# Data - Exclude generated data (regenerate with data_generator)
+# Data - Generated at runtime
 data/*.csv
+data/*.db
 
 # OS
 .DS_Store
@@ -48,3 +50,19 @@ Thumbs.db
 # Temporary files
 tmp/
 *.tmp
+
+# Docker (not needed for Streamlit Cloud)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Node / Frontend
+node_modules/
+.next/
+frontend/
+
+# Kubernetes
+k8s/
+
+# Environment
+.env

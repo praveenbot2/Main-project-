@@ -44,12 +44,13 @@ class AlertSystem:
             'recommendations': prediction_result['recommendations']
         }
         
-        # Determine if alert should be triggered
-        if risk_level == 'high':
+        # Determine if alert should be triggered (case-insensitive comparison)
+        rl = risk_level.lower() if isinstance(risk_level, str) else str(risk_level)
+        if rl == 'high':
             alert['should_alert'] = True
             alert['alert_type'] = 'CRITICAL'
             alert['message'] = '🚨 CRITICAL: High health risk detected! Immediate medical attention required.'
-        elif risk_level == 'medium':
+        elif rl == 'medium':
             alert['should_alert'] = True
             alert['alert_type'] = 'WARNING'
             alert['message'] = '⚠️ WARNING: Moderate health risk detected. Please monitor closely and consult a doctor.'
