@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* ── Dark Teal Medical Theme (matches landing page) ── */
+:root {
+  --background: 168 85% 5%;
+  --foreground: 170 20% 93%;
+  --card: 168 50% 8%;
+  --card-foreground: 170 20% 93%;
+  --popover: 168 50% 8%;
+  --popover-foreground: 170 20% 93%;
+  --primary: 173 58% 39%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 168 30% 13%;
+  --secondary-foreground: 170 20% 85%;
+  --muted: 168 25% 14%;
+  --muted-foreground: 170 15% 55%;
+  --accent: 168 30% 13%;
+  --accent-foreground: 170 20% 93%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 168 25% 15%;
+  --input: 168 25% 15%;
+  --ring: 173 58% 39%;
+  --radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Shimmer button keyframes */
+  --animate-shimmer-slide: shimmer-slide 3s ease-in-out infinite;
+  --animate-spin-around: spin-around 3s linear infinite;
+}
+
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+
+@keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+  }
+  15%,
+  35% {
+    transform: translateZ(0) rotate(90deg);
+  }
+  65%,
+  85% {
+    transform: translateZ(0) rotate(270deg);
+  }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}

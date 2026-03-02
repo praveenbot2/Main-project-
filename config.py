@@ -2,6 +2,7 @@
 Configuration file for AI Health Monitor System
 """
 import os
+import secrets
 
 # Model configuration
 MODEL_PATH = 'models/health_predictor.pkl'
@@ -24,6 +25,31 @@ HEALTH_PARAMS = {
     'respiratory_rate': {'min': 8, 'max': 40, 'normal': (12, 20)}
 }
 
+# Server configuration
+HOST = '127.0.0.1'  # Localhost only for security
+PORT = 5000
+DEBUG = False  # Set to True only for development
+
 # Data configuration
 DATA_PATH = 'data/health_data.csv'
 DATASET_SIZE = 1000
+
+# Database configuration
+DATABASE_PATH = os.path.join(os.path.dirname(__file__), 'data', 'health_monitor.db')
+
+# JWT / Auth configuration
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', secrets.token_hex(32))
+JWT_ACCESS_TOKEN_EXPIRES = 3600       # 1 hour
+JWT_REFRESH_TOKEN_EXPIRES = 86400 * 7  # 7 days
+
+# Rate limiting
+RATE_LIMIT_DEFAULT = "60/minute"
+RATE_LIMIT_AUTH = "10/minute"         # login / register
+RATE_LIMIT_PREDICT = "30/minute"
+
+# Pagination
+DEFAULT_PAGE_SIZE = 20
+MAX_PAGE_SIZE = 100
+
+# Roles
+ROLES = ['patient', 'doctor', 'admin']
