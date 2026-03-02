@@ -38,11 +38,6 @@ models/*.pkl
 # Data - Exclude generated data (regenerate with data_generator)
 data/*.csv
 
-# Node
-node_modules/
-.next/
-out/
-
 # OS
 .DS_Store
 Thumbs.db
