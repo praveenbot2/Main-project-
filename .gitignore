@@ -12,6 +12,7 @@ eggs/
 .eggs/
 lib/
 lib64/
+!frontend/lib/
 parts/
 sdist/
 var/
@@ -33,10 +34,12 @@ env/
 *~
 
 # Models - Exclude trained models (regenerate with training)
-models/*.pkl
+# NOTE: models/*.pkl are tracked for Vercel deployment
+# models/*.pkl
 
 # Data - Exclude generated data (regenerate with data_generator)
-data/*.csv
+# NOTE: data/*.csv is tracked for Vercel deployment
+# data/*.csv
 
 # OS
 .DS_Store

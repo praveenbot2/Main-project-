@@ -5,7 +5,10 @@ Supports feature engineering, ensemble methods, and model versioning
 """
 
 import numpy as np
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 from sklearn.ensemble import (
     RandomForestClassifier,
     GradientBoostingClassifier,
@@ -49,7 +52,7 @@ class HealthPredictor:
     @staticmethod
     def _derive_features(df_or_row):
         """Add derived features to a DataFrame or single-row array."""
-        if isinstance(df_or_row, pd.DataFrame):
+        if pd is not None and isinstance(df_or_row, pd.DataFrame):
             df = df_or_row.copy()
             df['pulse_pressure'] = df['blood_pressure_systolic'] - df['blood_pressure_diastolic']
             df['mean_arterial_pressure'] = (

@@ -4,9 +4,11 @@ Configuration file for AI Health Monitor System
 import os
 import secrets
 
+_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Model configuration
-MODEL_PATH = 'models/health_predictor.pkl'
-SCALER_PATH = 'models/scaler.pkl'
+MODEL_PATH = os.path.join(_BASE_DIR, 'models', 'health_predictor.pkl')
+SCALER_PATH = os.path.join(_BASE_DIR, 'models', 'scaler.pkl')
 
 # Alert thresholds
 ALERT_THRESHOLDS = {
@@ -31,7 +33,7 @@ PORT = 5000
 DEBUG = False  # Set to True only for development
 
 # Data configuration
-DATA_PATH = 'data/health_data.csv'
+DATA_PATH = os.path.join(_BASE_DIR, 'data', 'health_data.csv')
 DATASET_SIZE = 1000
 
 # Database configuration
