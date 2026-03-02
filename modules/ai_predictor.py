@@ -246,10 +246,10 @@ class HealthPredictor:
         elif hr < 60:
             conditions.append({'name': 'bradycardia', 'severity': 'warning', 'detail': f'Heart rate {hr} bpm (<60)'})
 
-        if sys >= 140 or dia >= 90:
-            conditions.append({'name': 'hypertension', 'severity': 'warning', 'detail': f'BP {sys}/{dia} mmHg'})
-        elif sys >= 180 or dia >= 120:
+        if sys >= 180 or dia >= 120:
             conditions.append({'name': 'hypertensive_crisis', 'severity': 'critical', 'detail': f'BP {sys}/{dia} mmHg'})
+        elif sys >= 140 or dia >= 90:
+            conditions.append({'name': 'hypertension', 'severity': 'warning', 'detail': f'BP {sys}/{dia} mmHg'})
         elif sys < 90 or dia < 60:
             conditions.append({'name': 'hypotension', 'severity': 'warning', 'detail': f'BP {sys}/{dia} mmHg'})
 

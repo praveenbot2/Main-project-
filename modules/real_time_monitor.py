@@ -20,9 +20,9 @@ from config import HEALTH_PARAMS
 class RealTimeMonitor:
     """Real-time health monitoring system"""
     
-    def __init__(self):
-        self.predictor = HealthPredictor()
-        self.alert_system = AlertSystem()
+    def __init__(self, predictor=None, alert_system=None):
+        self.predictor = predictor or HealthPredictor()
+        self.alert_system = alert_system or AlertSystem()
         self.is_monitoring = False
         self.monitoring_history = []
     
@@ -184,9 +184,9 @@ class RealTimeMonitor:
         
         summary = self.alert_system.get_alert_summary()
         print(f"\nSession Summary:")
-        print(f"  Critical Alerts: {summary['critical']}")
-        print(f"  Warning Alerts: {summary['warning']}")
-        print(f"  Info Messages: {summary['info']}")
+        print(f"  Critical Alerts: {summary['critical_alerts']}")
+        print(f"  Warning Alerts: {summary['warning_alerts']}")
+        print(f"  Info Messages: {summary['info_alerts']}")
     
     def get_history(self, last_n=10):
         """Get last N monitoring records"""

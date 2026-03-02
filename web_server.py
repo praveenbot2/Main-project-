@@ -20,11 +20,11 @@ from config import HOST, PORT, DEBUG
 app = Flask(__name__)
 CORS(app)
 
-# Initialize components
+# Initialize components (shared instances so alerts are unified)
 predictor = HealthPredictor()
 alert_system = AlertSystem()
 chatbot = HealthChatbot()
-monitor = RealTimeMonitor()
+monitor = RealTimeMonitor(predictor=predictor, alert_system=alert_system)
 
 # Load model
 try:

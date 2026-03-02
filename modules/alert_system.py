@@ -79,19 +79,25 @@ class AlertSystem:
     def get_alert_summary(self):
         """Get summary of all alerts"""
         if not self.alert_history:
-            return "No alerts in history"
+            return {
+                'total_alerts': 0,
+                'critical_alerts': 0,
+                'warning_alerts': 0,
+                'info_alerts': 0,
+                'recent_alerts': []
+            }
         
         total_alerts = len(self.alert_history)
-        critical = sum(1 for a in self.alert_history if a['alert_type'] == 'CRITICAL')
-        warning = sum(1 for a in self.alert_history if a['alert_type'] == 'WARNING')
-        info = sum(1 for a in self.alert_history if a['alert_type'] == 'INFO')
+        critical_alerts = sum(1 for a in self.alert_history if a['alert_type'] == 'CRITICAL')
+        warning_alerts = sum(1 for a in self.alert_history if a['alert_type'] == 'WARNING')
+        info_alerts = sum(1 for a in self.alert_history if a['alert_type'] == 'INFO')
         
         return {
             'total_alerts': total_alerts,
-            'critical': critical,
-            'warning': warning,
-            'info': info,
-            'recent_alerts': self.alert_history[-5:]  # Last 5 alerts
+            'critical_alerts': critical_alerts,
+            'warning_alerts': warning_alerts,
+            'info_alerts': info_alerts,
+            'recent_alerts': self.alert_history[-10:]  # Last 10 alerts
         }
     
     def clear_history(self):

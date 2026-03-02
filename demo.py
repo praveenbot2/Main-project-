@@ -123,8 +123,8 @@ def demo_alert_system():
     
     print("\nAlert Summary:")
     summary = alert_system.get_alert_summary()
-    print(f"Total: {summary['total_alerts']}, Critical: {summary['critical']}, "
-          f"Warning: {summary['warning']}, Info: {summary['info']}")
+    print(f"Total: {summary['total_alerts']}, Critical: {summary['critical_alerts']}, "
+          f"Warning: {summary['warning_alerts']}, Info: {summary['info_alerts']}")
 
 
 def demo_chatbot():
